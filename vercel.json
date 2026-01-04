@@ -1,5 +1,4 @@
 {
-{
   "public": ".",
   "rewrites": [
     {
@@ -7,4 +6,4 @@
       "destination": "/index2.html"
     }
   ]
-}}
+}
