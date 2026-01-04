@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Telugu FF Arena🔥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: linear-gradient(135deg, #ff0050, #ff4500, #ff8c00);
+            --secondary: linear-gradient(135deg, #00d4ff, #0099cc);
+            --morning: #ffd700; --evening: #ff4500; --success: #00ff88;
+            --dark: #0a0a0a; --glass: rgba(255,255,255,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Rajdhani', sans-serif; background: var(--dark); color: #fff; overflow-x: hidden; }
+
+        /* ================= PASSWORD EYE STYLE ================= */
+        .pass-container { position: relative; width: 100%; }
+        .toggle-password {
+            position: absolute; right: 15px; top: 15px;
+            color: #666; cursor: pointer; z-index: 10;
+            transition: 0.3s;
+        }
+        .toggle-password:hover { color: var(--success); }
+
+        /* ================= LOGIN FEATURE GRID ================= */
+        .login-features {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 15px; width: 100%; max-width: 400px; margin-top: 30px;
+            z-index: 2;
+        }
+        .f-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px; border-radius: 15px; text-align: center;
+            transition: 0.3s;
+        }
+        .f-card i { font-size: 1.5rem; color: var(--success); margin-bottom: 8px; }
+        .f-card span { display: block; font-size: 0.8rem; font-family: 'Orbitron'; color: #ccc; }
+        .f-card:hover { background: rgba(0, 255, 136, 0.05); border-color: var(--success); }
+
+        /* ================= SPARKING ANIMATION ================= */
+        @keyframes spark-flash {
+            0% { left: -150%; opacity: 0; }
+            20% { opacity: 0.5; }
+            40% { left: 150%; opacity: 0; }
+            100% { left: 150%; opacity: 0; }
+        }
+
+        .spark-card {
+            position: relative; overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .spark-card::before {
+            content: ''; position: absolute; top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-25deg); animation: spark-flash 4s infinite;
+        }
+
+        .spark-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--success);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        /* ================= RULES SECTION ================= */
+        .rules-box {
+            background: rgba(0, 40, 20, 0.4); border: 1px solid rgba(0, 255, 136, 0.15);
+            border-radius: 15px; padding: 12px; margin: 15px 0; text-align: left;
+        }
+        .rules-title {
+            color: var(--success); font-family: 'Orbitron'; font-size: 0.8rem;
+            margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-transform: uppercase;
+        }
+        .rule-line { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; margin-bottom: 5px; color: #ccc; }
+        .rule-line i { width: 14px; text-align: center; font-size: 0.8rem; }
+        .rule-line .fa-ban { color: #ff0050; }
+
+        /* ================= LOGIN UI ================= */
+        #loginScreen {
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0a 100%); padding: 2rem; position: relative;
+        }
+        .auth-box {
+            background: var(--glass); padding: 2.5rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1);
+            width: 100%; max-width: 400px; backdrop-filter: blur(15px); z-index: 2;
+        }
+        .tab-btns { display: flex; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { flex: 1; padding: 10px; background: rgba(255,255,255,0.1); color: white; border: none; cursor: pointer; border-radius: 10px; font-family: 'Orbitron'; }
+        .tab-btn.active { background: var(--primary); }
+
+        /* ================= MAIN CONTENT UI ================= */
+        #mainContent { display: none; }
+        #mainContent.show { display: block; }
+
+        .header { background: var(--primary); padding: 2rem; text-align: center; box-shadow: 0 10px 30px rgba(255,0,80,0.4); }
+        .header h1 { font-family: 'Orbitron'; font-size: clamp(1.8rem, 5vw, 3rem); text-shadow: 0 0 20px #fff; }
+
+        .nav { background: rgba(0,0,0,0.9); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .section-title { font-family: 'Orbitron'; text-align: center; margin: 3rem 0 2rem; color: var(--success); text-transform: uppercase; letter-spacing: 2px; }
+
+        .tournaments-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .card { padding: 2rem; border-radius: 25px; }
+        .card.morning { border-left: 6px solid var(--morning); }
+        .card.evening { border-left: 6px solid var(--evening); }
+        
+        .live-tag {
+            position: absolute; top: 15px; right: 15px;
+            background: #ff0000; color: #fff; padding: 4px 12px;
+            border-radius: 20px; font-family: 'Orbitron'; font-size: 0.7rem;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* ================= PAYMENT/PROFILE UI ================= */
+        .upi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }
+        .upi-opt { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 15px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.3s;
+            font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .upi-opt:hover { background: var(--success); color: #000; transform: scale(1.05); }
+        .qr-box { background: #fff; padding: 10px; border-radius: 15px; margin: 15px auto; width: 180px; display: none; }
+        
+        /* ================= ORGANIZERS ROW ================= */
+        .organizers-row { display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 15px; padding: 20px 0; justify-content: space-between; }
+        .creator-card { flex: 1; min-width: 150px; padding: 1.5rem 1rem; text-align: center; border-radius: 20px; background: rgba(255,255,255,0.05); display: flex; flex-direction: column; justify-content: space-between; min-height: 140px; }
+        .creator-name { font-family: 'Orbitron'; font-size: 1rem; color: #fff; margin-bottom: 10px; }
+        .creator-role { font-size: 0.75rem; text-transform: uppercase; color: var(--success); letter-spacing: 1px; background: rgba(0,255,136,0.1); padding: 5px; border-radius: 8px; margin-top: auto; }
+
+        .btn { width: 100%; padding: 1rem; border-radius: 15px; border: none; font-weight: 900; font-family: 'Orbitron'; cursor: pointer; transition: 0.3s; margin-top: 1rem; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-small { padding: 8px 15px; border-radius: 8px; background: rgba(255,255,255,0.1); color: white; border: 1px solid #444; font-family: 'Rajdhani'; font-weight: bold; cursor: pointer; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #444; background: #000; color: #fff; }
+        
+        .copyright { text-align: center; padding: 2rem; background: #050505; color: #666; font-family: 'Orbitron'; font-size: 0.75rem; line-height: 1.5; }
+        .login-footer { position: absolute; bottom: 10px; width: 100%; color: #444; font-size: 0.7rem; text-align: center; font-family: 'Orbitron'; }
+
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; place-items: center; }
+        .modal-content { background: #111; padding: 2rem; border-radius: 20px; width: 90%; max-width: 450px; border: 1px solid var(--success); max-height: 80vh; overflow-y: auto; }
+        .reg-item { background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 10px; border-left: 3px solid var(--success); }
+    </style>
+</head>
+<body>
+
+<div id="loginScreen">
+    <h1 style="font-family: 'Orbitron'; color: #ff4500; font-size: 2.5rem; margin-bottom: 2rem; text-shadow: 0 0 15px rgba(255,69,0,0.5);">TELUGU FF ARENA</h1>
+    
+    <div class="auth-box">
+        <div class="tab-btns">
+            <button class="tab-btn active" onclick="switchTab('login')">LOGIN</button>
+            <button class="tab-btn" onclick="switchTab('register')">JOIN US</button>
+        </div>
+        
+        <div id="loginDiv">
+            <input type="text" id="logId" placeholder="Player ID">
+            <div class="pass-container">
+                <input type="password" id="logPass" placeholder="Password">
+                <i class="fas fa-eye toggle-password" onclick="togglePass('logPass', this)"></i>
+            </div>
+            <button class="btn btn-primary" onclick="loginUser()">BATTLE START</button>
+        </div>
+        
+        <div id="regDiv" style="display:none">
+            <input type="text" id="regId" placeholder="Create Player ID">
+            <div class="pass-container">
+                <input type="password" id="regPass" placeholder="Create Password">
+                <i class="fas fa-eye toggle-password" onclick="togglePass('regPass', this)"></i>
+            </div>
+            <input type="tel" id="regWp" placeholder="WhatsApp Number">
+            <button class="btn btn-primary" style="background:var(--success); color:#000" onclick="registerUser()">CREATE ACCOUNT</button>
+        </div>
+    </div>
+
+    <div class="login-features">
+        <div class="f-card"><i class="fas fa-bolt"></i><span>Fast Payout</span></div>
+        <div class="f-card"><i class="fas fa-shield-alt"></i><span>Anti-Cheat</span></div>
+        <div class="f-card"><i class="fas fa-headset"></i><span>24/7 Support</span></div>
+        <div class="f-card"><i class="fas fa-trophy"></i><span>Daily Prize</span></div>
+    </div>
+
+    <div class="login-footer">
+        © 2026 TEAM TELUGU SQUAD | PROUDLY FROM TUNI, AP.
+    </div>
+</div>
+
+<div id="mainContent">
+    <header class="header">
+        <h1>🔥 Team Telugu Squad 🔥</h1>
+        <p>PAY → ROOM ID → BATTLE</p>
+    </header>
+
+    <nav class="nav">
+        <div style="font-family:Orbitron; color:var(--success)">Telugu FF Arena</div>
+        <div style="display:flex; gap:10px">
+            <button class="btn-small" onclick="showRegistered()"><i class="fas fa-ticket-alt"></i> MY ENTRIES</button>
+            <button class="btn-small" onclick="showProfile()"><i class="fas fa-user"></i> PROFILE</button>
+            <button class="btn-small" onclick="showHelp()"><i class="fas fa-headset"></i> HELP</button>
+            <button class="btn-small" onclick="logout()" style="color:#ff0050">LOGOUT</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="section-title">🌅 MORNING SOLO (7:30 AM IST)</h2>
+        <div class="tournaments-grid">
+            <div class="card morning spark-card">
+                <div class="live-tag">LIVE NOW</div>
+                <h3>7:30 AM IST</h3>
+                <h2>Solo Mabbula Monday</h2>
+                <p>📅 Mon, Jan 6 | 📱 Upcoming</p>
+                <p><b>Prize:</b> 1st:₹200 | 2nd:₹100 | 3rd:₹50</p>
+                <div class="rules-box">
+                    <div class="rules-title"><i class="fas fa-shield-alt"></i> Strict Rules</div>
+                    <div class="rule-line"><i class="fas fa-ban"></i> NO CHEATING/PANEL = BAN</div>
+                    <div class="rule-line"><i class="fas fa-user"></i> SOLO ONLY (1 Player)</div>
+                    <div class="rule-line"><i class="fas fa-coins"></i> Entry: ₹5</div>
+                    <div class="rule-line"><i class="fas fa-bullseye"></i> ₹2/Kill + ₹50 Booyah</div>
+                </div>
+                <p id="p1" style="color:var(--morning)">23/50 Players Joined</p>
+                <button class="btn btn-primary" onclick="openPayment('Solo Mabbula Monday', 5)">REGISTER NOW</button>
+            </div>
+            <div class="card morning spark-card">
+                <h3>7:30 AM IST</h3>
+                <h2>Solo Thunder Thursday</h2>
+                <p>📅 Thu, Jan 9 | 📱 Upcoming</p>
+                <p><b>Prize:</b> 1st:₹200 | 2nd:₹100 | 3rd:₹50</p>
+                <div class="rules-box">
+                    <div class="rules-title"><i class="fas fa-shield-alt"></i> Strict Rules</div>
+                    <div class="rule-line"><i class="fas fa-ban"></i> NO CHEATING/PANEL = BAN</div>
+                    <div class="rule-line"><i class="fas fa-user"></i> SOLO ONLY (1 Player)</div>
+                    <div class="rule-line"><i class="fas fa-coins"></i> Entry: ₹5</div>
+                    <div class="rule-line"><i class="fas fa-bullseye"></i> ₹2/Kill + ₹50 Booyah</div>
+                </div>
+                <p id="p2" style="color:var(--morning)">8/50 Players Joined</p>
+                <button class="btn btn-primary" onclick="openPayment('Solo Thunder Thursday', 5)">REGISTER NOW</button>
+            </div>
+        </div>
+
+        <h2 class="section-title">🌆 EVENING SQUAD (5:30 PM IST)</h2>
+        <div class="tournaments-grid">
+            <div class="card evening spark-card">
+                <div class="live-tag">LIVE NOW</div>
+                <h3>5:30 PM IST</h3>
+                <h2>Squad Mabbula Monday</h2>
+                <p>📅 Mon, Jan 6 | 🔴 LIVE NOW</p>
+                <p><b>Prize:</b> 1st:₹200 | 2nd:₹100 | 3rd:₹50</p>
+                <div class="rules-box">
+                    <div class="rules-title"><i class="fas fa-shield-alt"></i> Strict Rules</div>
+                    <div class="rule-line"><i class="fas fa-ban"></i> NO CHEATING/PANEL = BAN</div>
+                    <div class="rule-line"><i class="fas fa-users"></i> SQUAD (1-4 Players)</div>
+                    <div class="rule-line"><i class="fas fa-coins"></i> Entry: ₹20</div>
+                    <div class="rule-line"><i class="fas fa-trophy"></i> Top 3 Team Prizes</div>
+                </div>
+                <p id="p3" style="color:var(--evening)">9/12 Teams Joined</p>
+                <button class="btn btn-primary" onclick="openPayment('Squad Mabbula Monday', 20)">REGISTER NOW</button>
+            </div>
+            <div class="card evening spark-card">
+                <h3>5:30 PM IST</h3>
+                <h2>Squad Thunder Thursday</h2>
+                <p>📅 Thu, Jan 9 | 📱 Upcoming</p>
+                <p><b>Prize:</b> 1st:₹200 | 2nd:₹100 | 3rd:₹50</p>
+                <div class="rules-box">
+                    <div class="rules-title"><i class="fas fa-shield-alt"></i> Strict Rules</div>
+                    <div class="rule-line"><i class="fas fa-ban"></i> NO CHEATING/PANEL = BAN</div>
+                    <div class="rule-line"><i class="fas fa-users"></i> SQUAD (1-4 Players)</div>
+                    <div class="rule-line"><i class="fas fa-coins"></i> Entry: ₹20</div>
+                    <div class="rule-line"><i class="fas fa-trophy"></i> Top 3 Team Prizes</div>
+                </div>
+                <p id="p4" style="color:var(--evening)">3/12 Teams Joined</p>
+                <button class="btn btn-primary" onclick="openPayment('Squad Thunder Thursday', 20)">REGISTER NOW</button>
+            </div>
+        </div>
+        
+        <h2 class="section-title"> ORGANIZERS</h2>
+        <div class="organizers-row">
+            <div class="creator-card spark-card"><div class="creator-name">ERROR</div><div class="creator-role">👑Founder</div></div>
+            <div class="creator-card spark-card"><div class="creator-name">TG-MANI</div><div class="creator-role">Director</div></div>
+            <div class="creator-card spark-card"><div class="creator-name">EAGLE</div><div class="creator-role">Tech Head</div></div>
+            <div class="creator-card spark-card"><div class="creator-name">CAPTAIN</div><div class="creator-role">Organizer</div></div>
+            <div class="creator-card spark-card"><div class="creator-name">SCORE</div><div class="creator-role">Cordinator</div></div>
+            <div class="creator-card spark-card"><div class="creator-name">MAXWELL</div><div class="creator-role">Designer</div></div>
+        </div>
+    </div>
+
+    <footer class="copyright">
+        © 2026 TEAM TELUGU SQUAD – PROUDLY FROM TUNI, AP.<br>
+        ALL TOURNAMENTS ARE MANAGED BY OFFICIAL CREATORS.
+    </footer>
+</div>
+
+<div class="modal" id="payModal">
+    <div class="modal-content">
+        <h2 id="payTitle" style="font-family:Orbitron; margin-bottom:15px"></h2>
+        <p>Payable Amount: <span id="payAmt" style="color:var(--success); font-weight:bold"></span></p>
+        <div class="upi-grid">
+            <div class="upi-opt" onclick="genQR('PhonePe')"><i class="fas fa-mobile-alt"></i> PhonePe</div>
+            <div class="upi-opt" onclick="genQR('GPay')"><i class="fab fa-google-pay"></i> GPay</div>
+            <div class="upi-opt" onclick="genQR('Paytm')"><i class="fas fa-wallet"></i> Paytm</div>
+            <div class="upi-opt" onclick="genQR('Other')"><i class="fas fa-qrcode"></i> Other UPI</div>
+        </div>
+        <div class="qr-box" id="qrContainer"><img src="" id="qrImg" style="width:100%"></div>
+        <p id="upiIdText" style="text-align:center; font-size:0.8rem; color:#aaa; margin:10px 0"></p>
+        <button class="btn btn-primary" onclick="verifyPay()">I HAVE PAID</button>
+        <button class="btn-small" style="width:100%; margin-top:10px" onclick="closeModal()">CANCEL</button>
+    </div>
+</div>
+
+<div class="modal" id="regModal">
+    <div class="modal-content">
+        <h2 style="font-family:Orbitron; margin-bottom:15px">MY TOURNAMENTS</h2>
+        <div id="regList"></div>
+        <button class="btn-small" style="width:100%; margin-top:10px" onclick="closeModal()">CLOSE</button>
+    </div>
+</div>
+
+<div class="modal" id="profileModal">
+    <div class="modal-content">
+        <h2 style="font-family:Orbitron; margin-bottom:15px">MY PROFILE</h2>
+        <p>Player ID: <span id="profId" style="color:var(--success)"></span></p>
+        <div style="margin-top:20px">
+            <label>Update WhatsApp Number:</label>
+            <input type="tel" id="newWp" placeholder="Enter 10 digit number">
+            <button class="btn btn-primary" onclick="updateNumber()">UPDATE MOBILE</button>
+        </div>
+        <button class="btn-small" style="width:100%; margin-top:10px" onclick="closeModal()">CLOSE</button>
+    </div>
+</div>
+
+<script>
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+let registrations = JSON.parse(localStorage.getItem('registrations')) || [];
+let currentBooking = "";
+
+// Password Eye Toggle function
+function togglePass(inputId, icon) {
+    const input = document.getElementById(inputId);
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = "password";
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+function switchTab(tab){
+    document.getElementById('loginDiv').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('regDiv').style.display = tab === 'register' ? 'block' : 'none';
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    if(event) event.target.classList.add('active');
+}
+
+function registerUser(){
+    const id = regId.value.trim();
+    const pass = regPass.value;
+    const wp = regWp.value.trim();
+    if(!id || !pass || wp.length < 10){ alert("Fill all details correctly"); return; }
+    if(users.find(u => u.id === id)){ alert("Player ID already exists"); return; }
+    users.push({id, pass, wp});
+    localStorage.setItem('users', JSON.stringify(users));
+    alert("Account Created! Please Login.");
+    switchTab('login');
+}
+
+function loginUser(){
+    const id = logId.value.trim();
+    const pass = logPass.value;
+    const user = users.find(u => u.id === id && u.pass === pass);
+    if(!user){ alert("Invalid ID or Password"); return; }
+    currentUser = user;
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    showMain();
+}
+
+function showMain(){
+    loginScreen.style.display = 'none';
+    mainContent.classList.add('show');
+    profId.textContent = currentUser.id;
+}
+
+function logout(){ localStorage.removeItem('currentUser'); location.reload(); }
+function showHelp(){ alert("📞 SUPPORT:\nWhatsApp: +91 72078 78439\nAvailable: 7AM - 10PM"); }
+function showProfile(){ profileModal.style.display = 'grid'; newWp.value = currentUser.wp; }
+
+function updateNumber(){
+    const n = newWp.value.trim();
+    if(n.length < 10){ alert("Invalid Number"); return; }
+    currentUser.wp = n;
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    let idx = users.findIndex(u => u.id === currentUser.id);
+    users[idx].wp = n;
+    localStorage.setItem('users', JSON.stringify(users));
+    alert("Mobile Number Updated!");
+    closeModal();
+}
+
+function openPayment(name, amt){
+    currentBooking = name;
+    payModal.style.display = 'grid';
+    payTitle.textContent = name;
+    payAmt.textContent = "₹" + amt;
+    qrContainer.style.display = 'none';
+    upiIdText.textContent = "";
+}
+
+function genQR(app){
+    const amt = payAmt.textContent.replace('₹','');
+    const upi = "TeamTelugu@ybl";
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${upi}&pn=TeamTelugu&am=${amt}&cu=INR`;
+    qrContainer.style.display = 'block';
+    upiIdText.textContent = `Pay via ${app}: ${upi}`;
+}
+
+function verifyPay(){
+    registrations.push({
+        user: currentUser.id,
+        tournament: currentBooking,
+        date: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString()
+    });
+    localStorage.setItem('registrations', JSON.stringify(registrations));
+    alert("✅ Payment Confirmation Received! Room ID will be sent to your WhatsApp.");
+    closeModal();
+}
+
+function showRegistered(){
+    const list = document.getElementById('regList');
+    const myRegs = registrations.filter(r => r.user === currentUser.id);
+    if(myRegs.length === 0){
+        list.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">No tournaments registered yet.</p>`;
+    } else {
+        list.innerHTML = myRegs.map(r => `
+            <div class="reg-item">
+                <div style="font-weight:bold; color:var(--success)">${r.tournament}</div>
+                <div style="font-size:0.75rem; color:#aaa">${r.date}</div>
+            </div>
+        `).join('');
+    }
+    regModal.style.display = 'grid';
+}
+
+function closeModal(){ document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
+
+if(currentUser) showMain();
+</script>
+</body>
+</html>
